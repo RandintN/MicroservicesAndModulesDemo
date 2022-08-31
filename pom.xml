@@ -10,6 +10,7 @@
     <module>customer</module>
     <module>eureka-server</module>
     <module>fraud</module>
+    <module>clients</module>
   </modules>
 
   <packaging>pom</packaging>
@@ -44,8 +45,12 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-dependencies</artifactId>
       <version>2020.0.6</version>
-      <scope>import</scope>
       <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+      <version>3.0.7</version>
     </dependency>
   </dependencies>
 
