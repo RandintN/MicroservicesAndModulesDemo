@@ -1,4 +1,4 @@
-package simple.software.learn;
+package simple.software.learn.customer;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

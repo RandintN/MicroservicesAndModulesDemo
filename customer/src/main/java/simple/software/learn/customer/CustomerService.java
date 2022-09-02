@@ -1,11 +1,15 @@
-package simple.software.learn;
+package simple.software.learn.customer;
 
 import org.springframework.stereotype.Service;
+import simple.software.learn.ampq.RabbitMqMessageProducer;
 import simple.software.learn.clients.fraud.FraudCheckResponse;
 import simple.software.learn.clients.fraud.FraudClient;
+import simple.software.learn.clients.notification.NotificationRequest;
 
 @Service
-public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient) {
+public record CustomerService(CustomerRepository customerRepository,
+                              FraudClient fraudClient,
+                              RabbitMqMessageProducer messageProducer) {
 
   public void registerCustomer(CustomerRegistrationRequest request) {
     Customer customer = Customer.builder()
@@ -23,7 +27,14 @@ public record CustomerService(CustomerRepository customerRepository, FraudClient
       throw new IllegalStateException("Fraudster");
     }
 
-    // TODO: send notification
+    final var notificationRequest = new NotificationRequest(
+        customer.getId(),
+        customer.getEmail(),
+        String.format("Hi %s, welcome to my kingdom", customer.getFirstName())
+    );
 
+    messageProducer.publish(notificationRequest,
+                    "internal.exchange",
+                   "internal.notification.routing-key");
   }
 }

@@ -1,12 +1,10 @@
-package simple.software.learn;
+package simple.software.learn.customer;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,9 +23,6 @@ public class Customer {
 
   private String firstName;
   private String lastName;
-
-  @Email
-  @Column(unique = true)
   private String email;
 
 }

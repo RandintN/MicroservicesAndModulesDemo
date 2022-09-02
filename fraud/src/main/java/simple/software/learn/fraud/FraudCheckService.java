@@ -1,4 +1,4 @@
-package simple.software.learn;
+package simple.software.learn.fraud;
 
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;

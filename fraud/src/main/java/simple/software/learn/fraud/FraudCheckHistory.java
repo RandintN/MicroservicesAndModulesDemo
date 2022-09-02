@@ -1,4 +1,4 @@
-package simple.software.learn;
+package simple.software.learn.fraud;
 
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
