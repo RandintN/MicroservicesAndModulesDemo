@@ -1,6 +1,77 @@
 version: "3"
 
 services:
+  api-gateway:
+    image: randintn/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8083:8083"
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+      - eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  customer:
+    image: randintn/customer:latest
+    container_name: customer
+    ports:
+      - "8080:8080"
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+      - postgres
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  eureka-server:
+    image: randintn/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - postgres
+      - spring
+    depends_on:
+      - postgres
+      - zipkin
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  fraud:
+    image: randintn/fraud:latest
+    container_name: fraud
+    ports:
+      - "8081:8081"
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  notification:
+    image: randintn/notification:latest
+    container_name: notification
+    ports:
+      - "8086:8086"
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
   postgres:
     container_name: postgres
     image: postgres
@@ -12,6 +83,9 @@ services:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
+    networks:
+      - spring
+      - postgres
     restart: unless-stopped
 
   rabbitmq:
@@ -20,12 +94,22 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - spring
+      - postgres
 
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
     ports:
       - "9411:9411"
+    networks:
+      - spring
+      - postgres
+
+networks:
+  postgres:
+  spring:
 
 volumes:
   postgres:

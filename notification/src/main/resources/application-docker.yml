@@ -6,7 +6,7 @@ spring:
     name: notification
   datasource:
     username: services
-    url: jdbc:postgresql://localhost:5432/notification
+    url: jdbc:postgresql://postgres:5432/notification
     password: password
   jpa:
     open-in-view: false
@@ -18,7 +18,7 @@ spring:
       ddl-auto: create-drop
     show-sql: true
   rabbitmq:
-    addresses: localhost:5672
+    addresses: rabbitmq:5672
 
 rabbitmq:
   template:
@@ -29,7 +29,8 @@ rabbitmq:
     routing-keys:
       internal-notification: internal.notification.routing-key
 
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
